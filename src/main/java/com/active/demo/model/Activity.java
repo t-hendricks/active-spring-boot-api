@@ -1,8 +1,11 @@
 package com.active.demo.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
+import java.util.SortedSet;
 
 @Entity
 @Table(name = "activities")
@@ -22,6 +25,10 @@ public class Activity {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    @OneToMany(mappedBy = "activity", orphanRemoval = true)
+    @LazyCollection(LazyCollectionOption.FALSE)
+    private SortedSet<ActivityLike> likedActivities;
 
     public Activity() {
     }
@@ -60,6 +67,14 @@ public class Activity {
         this.user = user;
     }
 
+    public SortedSet<ActivityLike> getLikedActivities() {
+        return likedActivities;
+    }
+
+    public void setLikedActivities(SortedSet<ActivityLike> likedActivities) {
+        this.likedActivities = likedActivities;
+    }
+
     @Override
     public String toString() {
         return "Activity{" +
@@ -67,6 +82,7 @@ public class Activity {
                 ", activityDate='" + activityDate + '\'' +
                 ", content='" + content + '\'' +
                 ", user=" + user +
+                ", likedActivities=" + likedActivities +
                 '}';
     }
 }
