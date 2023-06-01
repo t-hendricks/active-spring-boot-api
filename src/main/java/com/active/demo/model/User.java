@@ -5,6 +5,7 @@ import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.SortedSet;
 
 @Entity
@@ -25,11 +26,11 @@ public class User {
     // One user can have many activities
     @OneToMany(mappedBy = "user", orphanRemoval = true)
     @LazyCollection(LazyCollectionOption.FALSE) // loads activities immediately
-    private SortedSet<Activity> activities;
+    private List<Activity> activities;
 
     @OneToMany(mappedBy = "user", orphanRemoval = true)
     @LazyCollection(LazyCollectionOption.FALSE)
-    private SortedSet<ActivityLike> likedActivities;
+    private List<ActivityLike> likedActivities;
 
     public User() {
     }
@@ -60,19 +61,19 @@ public class User {
         this.password = password;
     }
 
-    public SortedSet<Activity> getActivities() {
+    public List<Activity> getActivities() {
         return activities;
     }
 
-    public void setActivities(SortedSet<Activity> activities) {
+    public void setActivities(List<Activity> activities) {
         this.activities = activities;
     }
 
-    public SortedSet<ActivityLike> getLikedActivities() {
+    public List<ActivityLike> getLikedActivities() {
         return likedActivities;
     }
 
-    public void setLikedActivities(SortedSet<ActivityLike> likedActivities) {
+    public void setLikedActivities(List<ActivityLike> likedActivities) {
         this.likedActivities = likedActivities;
     }
 
