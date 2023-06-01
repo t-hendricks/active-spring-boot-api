@@ -27,6 +27,10 @@ public class User {
     @LazyCollection(LazyCollectionOption.FALSE) // loads activities immediately
     private SortedSet<Activity> activities;
 
+    @OneToMany(mappedBy = "user", orphanRemoval = true)
+    @LazyCollection(LazyCollectionOption.FALSE)
+    private SortedSet<ActivityLike> likedActivities;
+
     public User() {
     }
 
@@ -64,12 +68,21 @@ public class User {
         this.activities = activities;
     }
 
+    public SortedSet<ActivityLike> getLikedActivities() {
+        return likedActivities;
+    }
+
+    public void setLikedActivities(SortedSet<ActivityLike> likedActivities) {
+        this.likedActivities = likedActivities;
+    }
+
     @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
                 ", userName='" + userName + '\'' +
                 ", activities=" + activities +
+                ", likedActivities=" + likedActivities +
                 '}';
     }
 }
