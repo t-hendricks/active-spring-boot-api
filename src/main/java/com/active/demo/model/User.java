@@ -1,8 +1,11 @@
 package com.active.demo.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
+import java.util.SortedSet;
 
 @Entity
 @Table(name = "users")
@@ -18,6 +21,11 @@ public class User {
     @Column(nullable = false)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
+
+    // One user can have many activities
+    @OneToMany(mappedBy = "user", orphanRemoval = true)
+    @LazyCollection(LazyCollectionOption.FALSE) // loads activities immediately
+    private SortedSet<Activity> activities;
 
     public User() {
     }
@@ -48,11 +56,20 @@ public class User {
         this.password = password;
     }
 
+    public SortedSet<Activity> getActivities() {
+        return activities;
+    }
+
+    public void setActivities(SortedSet<Activity> activities) {
+        this.activities = activities;
+    }
+
     @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
                 ", userName='" + userName + '\'' +
+                ", activities=" + activities +
                 '}';
     }
 }
