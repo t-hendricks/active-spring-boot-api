@@ -1,7 +1,6 @@
 package com.active.demo.model;
 
 import javax.persistence.*;
-import java.util.Date;
 
 @Entity
 @Table(name = "activities")
@@ -11,16 +10,16 @@ public class Activity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
-    private Date activityDate;
+    @Column(nullable = false)
+    private String activityDate;
 
-    @Column
+    @Column(nullable = false)
     private String content;
 
     public Activity() {
     }
 
-    public Activity(Long id, Date activityDate, String content) {
+    public Activity(Long id, String activityDate, String content) {
         this.id = id;
         this.activityDate = activityDate;
         this.content = content;
@@ -30,11 +29,11 @@ public class Activity {
         return id;
     }
 
-    public Date getActivityDate() {
+    public String getActivityDate() {
         return activityDate;
     }
 
-    public void setActivityDate(Date activityDate) {
+    public void setActivityDate(String activityDate) {
         this.activityDate = activityDate;
     }
 
