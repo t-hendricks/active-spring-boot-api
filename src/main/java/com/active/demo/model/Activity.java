@@ -5,6 +5,7 @@ import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.SortedSet;
 
 @Entity
@@ -28,7 +29,7 @@ public class Activity {
 
     @OneToMany(mappedBy = "activity", orphanRemoval = true)
     @LazyCollection(LazyCollectionOption.FALSE)
-    private SortedSet<ActivityLike> likedActivities;
+    private List<ActivityLike> likedActivities;
 
     public Activity() {
     }
@@ -67,11 +68,11 @@ public class Activity {
         this.user = user;
     }
 
-    public SortedSet<ActivityLike> getLikedActivities() {
+    public List<ActivityLike> getLikedActivities() {
         return likedActivities;
     }
 
-    public void setLikedActivities(SortedSet<ActivityLike> likedActivities) {
+    public void setLikedActivities(List<ActivityLike> likedActivities) {
         this.likedActivities = likedActivities;
     }
 
