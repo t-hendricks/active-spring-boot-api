@@ -10,6 +10,14 @@ public class ActivityLike {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "activity_id")
+    private Activity activity;
+
     public ActivityLike() {
     }
 
@@ -21,10 +29,28 @@ public class ActivityLike {
         return id;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Activity getActivity() {
+        return activity;
+    }
+
+    public void setActivity(Activity activity) {
+        this.activity = activity;
+    }
+
     @Override
     public String toString() {
         return "ActivityLike{" +
                 "id=" + id +
+                ", user=" + user +
+                ", activity=" + activity +
                 '}';
     }
 }
