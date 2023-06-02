@@ -15,7 +15,9 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Optional;
 
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -56,6 +58,17 @@ public class ActivityControllerTest {
                 .andExpect(jsonPath("$.data.activityDate").value(RECORD_1.getActivityDate()))
                 .andExpect(jsonPath("$.data.content").value(RECORD_1.getContent()))
                 .andExpect(jsonPath("$.message").value("success"))
+                .andDo(print());
+    }
+
+    @Test
+    public void createActivity_postTooEarly() throws Exception {
+        when(activityService.createActivity(Mockito.any(Activity.class))).thenReturn(null);
+        MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.put("/api/activities")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON);
+        mockMvc.perform(mockRequest)
+                .andExpect(status().isTooEarly())
                 .andDo(print());
     }
 }
