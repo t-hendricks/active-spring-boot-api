@@ -1,6 +1,5 @@
-package controller;
+package com.active.demo.controller;
 
-import com.active.demo.controller.UserController;
 import com.active.demo.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
