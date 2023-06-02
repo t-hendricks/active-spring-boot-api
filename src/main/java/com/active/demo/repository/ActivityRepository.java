@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface ActivityRepository extends JpaRepository<Activity, Long> {
-    public List<Activity> findAllByOrderByUserIdAsc();
+    public List<Activity> findByOrderByUserIdAsc(Long UserId);
 }
