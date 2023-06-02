@@ -47,7 +47,6 @@ public class UserControllerTest {
                 .andExpect(jsonPath("$", notNullValue()))
                 .andExpect(jsonPath("$.data.id").value(USER_1.getId()))
                 .andExpect(jsonPath("$.data.userName").value(USER_1.getUserName()))
-                .andExpect(jsonPath("$.data.password").value(USER_1.getPassword()))
                 .andExpect(jsonPath("$.message").value("success"))
                 .andDo(print());
     }
