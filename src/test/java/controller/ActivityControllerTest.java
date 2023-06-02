@@ -1,5 +1,7 @@
 package controller;
 
+import com.active.demo.controller.ActivityController;
+import com.active.demo.service.ActivityService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -7,7 +9,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 @WebMvcTest(ActivityController.class)
-public class ActivityControllerTests {
+public class ActivityControllerTest {
     @Autowired // dependency injection
     private MockMvc mockMvc; // Java Bean
 
