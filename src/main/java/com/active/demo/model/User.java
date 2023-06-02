@@ -6,7 +6,6 @@ import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.SortedSet;
 
 @Entity
 @Table(name = "users")
@@ -14,7 +13,7 @@ public class User {
     @Id
     @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Column(unique = true, nullable = false)
     private String userName;
@@ -35,13 +34,13 @@ public class User {
     public User() {
     }
 
-    public User(long id, String userName, String password) {
+    public User(Long id, String userName, String password) {
         this.id = id;
         this.userName = userName;
         this.password = password;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
