@@ -1,6 +1,5 @@
-package controller;
+package com.active.demo.controller;
 
-import com.active.demo.controller.ActivityController;
 import com.active.demo.model.Activity;
 import com.active.demo.service.ActivityService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -14,8 +13,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import static org.mockito.Mockito.when;
 import static org.hamcrest.Matchers.notNullValue;
@@ -34,13 +33,13 @@ public class ActivityControllerTest {
     @MockBean
     private ActivityService activityService;
 
-    SimpleDateFormat form = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
+    DateTimeFormatter form = DateTimeFormatter.ofPattern("MM/dd/yyyy hh:mm a");
     LocalDateTime now = LocalDateTime.now();
 
     // Dummy data for test methods
-    Activity RECORD_1 = new Activity(1L, form.format(now), "Content 1");
-    Activity RECORD_2 = new Activity(2L, form.format(now), "Content 2");
-    Activity RECORD_3 = new Activity(3L, form.format(now), "Content 3");
+    Activity RECORD_1 = new Activity(1L, now.format(form), "Content 1");
+    Activity RECORD_2 = new Activity(2L, now.format(form), "Content 2");
+    Activity RECORD_3 = new Activity(3L, now.format(form), "Content 3");
 
     @Test
     public void createActivity_success() throws Exception {
