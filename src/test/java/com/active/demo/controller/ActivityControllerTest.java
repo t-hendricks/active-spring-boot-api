@@ -64,9 +64,11 @@ public class ActivityControllerTest {
     @Test
     public void createActivity_postTooEarly() throws Exception {
         when(activityService.createActivity(Mockito.any(Activity.class))).thenReturn(null);
+
         MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.put("/api/activities")
                 .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON);
+                .accept(MediaType.APPLICATION_JSON)
+                .content(this.mapper.writeValueAsString(RECORD_1));
         mockMvc.perform(mockRequest)
                 .andExpect(status().isTooEarly())
                 .andDo(print());
