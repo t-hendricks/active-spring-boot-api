@@ -2,6 +2,7 @@ package com.active.demo.controller;
 
 import com.active.demo.exception.InformationExistException;
 import com.active.demo.model.User;
+import com.active.demo.model.request.LoginRequest;
 import com.active.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -35,5 +36,10 @@ public class UserController {
             message.put("message",e.getMessage());
             return new ResponseEntity<>(message, HttpStatus.CONFLICT);
         }
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> loginUser(@RequestBody LoginRequest loginRequest){
+        return userService.loginUser(loginRequest);
     }
 }
