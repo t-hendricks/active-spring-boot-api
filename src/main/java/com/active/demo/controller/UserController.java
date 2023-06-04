@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.HashMap;
 
 @RestController
-@RequestMapping(path = "/auth")
+@RequestMapping(path = "/auth/users")
 public class UserController {
     private UserService userService;
     static HashMap<String , Object> message = new HashMap<>();
