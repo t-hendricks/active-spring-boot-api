@@ -13,6 +13,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
+    // constructor
     @Autowired
     public UserService(UserRepository userRepository, @Lazy PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
@@ -26,5 +27,9 @@ public class UserService {
         } else {
             throw new InformationExistException("User with username: " + userObj.getUserName() + " exists");
         }
+    }
+
+    public User findUserByUserName(String userName) {
+        return userRepository.findUserByUserName(userName);
     }
 }
