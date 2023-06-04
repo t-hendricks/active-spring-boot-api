@@ -41,13 +41,14 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeRequests().antMatchers(
-                        "/auth/users/register","/auth/users/login"
+                        "/auth/users/register","/auth/users/login","/h2-console/**"
                 ).permitAll()
                 .anyRequest().authenticated()
                 .and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().csrf().disable();
         http.addFilterBefore(authJwtRequestFilter(), UsernamePasswordAuthenticationFilter.class); // added for JWT login
+        http.headers().frameOptions().disable(); // needed to see h2 database after login
         return http.build();
     }
 
