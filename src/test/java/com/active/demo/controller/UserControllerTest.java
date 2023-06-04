@@ -38,7 +38,7 @@ public class UserControllerTest {
     public void createUser_success() throws Exception {
         when(userService.createUser(Mockito.any(User.class))).thenReturn(USER_1);
 
-        MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.post("/auth/register")
+        MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.post("/auth/users/register")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .content(this.mapper.writeValueAsString(USER_1)); // serialization: convert from JSON - String
