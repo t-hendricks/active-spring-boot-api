@@ -24,6 +24,7 @@ public class ActivityService {
     }
 
     public Activity createActivity(Activity activityObj) {
+        activityObj.setUser(getCurrentLoggedInUser());
         return activityRepository.save(activityObj);
     }
 }

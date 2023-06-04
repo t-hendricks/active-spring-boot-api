@@ -28,7 +28,7 @@ public class Activity {
 
     @OneToMany(mappedBy = "activity", orphanRemoval = true)
     @LazyCollection(LazyCollectionOption.FALSE)
-    private List<ActivityLike> likedActivities;
+    private List<ActivityLike> likes;
 
     public Activity() {
     }
@@ -67,12 +67,12 @@ public class Activity {
         this.user = user;
     }
 
-    public List<ActivityLike> getLikedActivities() {
-        return likedActivities;
+    public List<ActivityLike> getLikes() {
+        return likes;
     }
 
-    public void setLikedActivities(List<ActivityLike> likedActivities) {
-        this.likedActivities = likedActivities;
+    public void setLikes(List<ActivityLike> likeds) {
+        this.likes = likes;
     }
 
     @Override
@@ -82,7 +82,7 @@ public class Activity {
                 ", activityDate='" + activityDate + '\'' +
                 ", content='" + content + '\'' +
                 ", user=" + user +
-                ", likedActivities=" + likedActivities +
+                ", like=" + likes +
                 '}';
     }
 }
