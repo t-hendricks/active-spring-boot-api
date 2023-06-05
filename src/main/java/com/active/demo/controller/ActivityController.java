@@ -2,6 +2,7 @@ package com.active.demo.controller;
 
 import com.active.demo.model.Activity;
 import com.active.demo.model.ActivityLike;
+import com.active.demo.model.User;
 import com.active.demo.service.ActivityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -68,5 +69,26 @@ public class ActivityController {
             message.put("message", "activity with id: " + activityId + " don't exist");
             return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
         }
+    }
+
+    @DeleteMapping("/activities/{activityId}")
+    public ResponseEntity<?> removeLikeFromActivity(@PathVariable Long activityId) {
+        ActivityLike like = activityService.removeLikeFromActivity(activityId);
+        if (like != null) {
+            message.put("message", "success");
+            message.put("data", like);
+            return new ResponseEntity<>(message, HttpStatus.OK);
+        } else {
+            message.put("message", "activity with id: " + activityId + " don't exist");
+            return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/user/activities")
+    public ResponseEntity<?> getCurrentUserContent() {
+        User user = ActivityService.getCurrentLoggedInUser();
+        message.put("message", "success");
+        message.put("data", user);
+        return new ResponseEntity<>(message, HttpStatus.OK);
     }
 }
