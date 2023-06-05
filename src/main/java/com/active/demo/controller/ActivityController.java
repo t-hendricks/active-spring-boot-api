@@ -1,6 +1,7 @@
 package com.active.demo.controller;
 
 import com.active.demo.model.Activity;
+import com.active.demo.model.ActivityLike;
 import com.active.demo.service.ActivityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -58,7 +59,7 @@ public class ActivityController {
 
     @PostMapping("/activities/{activityId}")
     public ResponseEntity<?> addLikeToActivity(@PathVariable Long activityId) {
-        Activity activity = activityService.addLikeToActivity(activityId);
+        ActivityLike activity = activityService.addLikeToActivity(activityId);
         if (activity != null) {
             message.put("message", "success");
             message.put("data", activity);
