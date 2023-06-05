@@ -4,7 +4,9 @@ import com.active.demo.exception.InformationExistException;
 import com.active.demo.exception.InformationNotFoundException;
 import com.active.demo.exception.RepeatingException;
 import com.active.demo.model.Activity;
+import com.active.demo.model.ActivityLike;
 import com.active.demo.model.User;
+import com.active.demo.repository.ActivityLikeRepository;
 import com.active.demo.repository.ActivityRepository;
 import com.active.demo.security.MyUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,11 +16,13 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 
 @Service
 public class ActivityService {
     private ActivityRepository activityRepository;
+    private ActivityLikeRepository activityLikeRepository;
 
     @Autowired
     public void setActivityRepository(ActivityRepository activityRepository) {
@@ -78,6 +82,18 @@ public class ActivityService {
             return activities.get(random.nextInt(activities.size()));
         } else {
             return null;
+        }
+    }
+
+    public ActivityLike addLikeToActivity(Long activityId) {
+        Optional<Activity> activity = activityRepository.findById(activityId);
+        if (activity.isPresent()) {
+            ActivityLike like = new ActivityLike();
+            like.setUser(getCurrentLoggedInUser());
+            like.setActivity(activity.get());
+            return activityLikeRepository.save(like);
+        } else {
+            throw new InformationNotFoundException("Cannot find activity with id " + activityId);
         }
     }
 }
