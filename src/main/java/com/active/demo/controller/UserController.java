@@ -25,6 +25,12 @@ public class UserController {
         this.userService = userService;
     }
 
+    /**
+     * This POST endpoint registers a new user.
+     *
+     * @param userObj This is the unique credentials used to register
+     * @return ResponseEntity
+     */
     @PostMapping("/register")
     public ResponseEntity<?> createUser(@RequestBody User userObj) {
         try {
@@ -38,6 +44,12 @@ public class UserController {
         }
     }
 
+    /**
+     * This POST endpoint logs-in user with existing credetials.
+     *
+     * @param loginRequest This is the existing credentials
+     * @return ResponseEntity
+     */
     @PostMapping("/login")
     public ResponseEntity<?> loginUser(@RequestBody LoginRequest loginRequest){
         return userService.loginUser(loginRequest);
