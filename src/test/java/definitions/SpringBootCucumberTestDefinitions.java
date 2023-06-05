@@ -1,7 +1,6 @@
 package definitions;
 
 import com.active.demo.ActiveApplication;
-import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.cucumber.spring.CucumberContextConfiguration;
@@ -33,6 +32,12 @@ public class SpringBootCucumberTestDefinitions {
         RestAssured.baseURI = BASE_URL;
     }
 
+    /**
+     * Setting up the request header and body to invoke a POST endpoint to
+     * register a new user.
+     *
+     * @throws Exception
+     */
     @When("User registers a unique account")
     public void userRegistersAUniqueAccount() throws Exception {
         JSONObject requestBody = new JSONObject();
@@ -42,6 +47,10 @@ public class SpringBootCucumberTestDefinitions {
         response = request.body(requestBody.toString()).post(BASE_URL + port + "/auth/users/register");
     }
 
+    /**
+     * Testing the results from the response to make sure
+     * the new user is registered.
+     */
     @Then("An account is created")
     public void anAccountIsCreated() {
         String msg = response.jsonPath().get("message");
@@ -52,6 +61,12 @@ public class SpringBootCucumberTestDefinitions {
         Assert.assertEquals("JohnDoe", user.get("userName"));
     }
 
+    /**
+     * Setting up the request header and body to invoke a POST endpoint to
+     * log in an existing user.
+     *
+     * @throws Exception
+     */
     @When("User log in with credentials")
     public void userLogInWithCredentials() throws Exception {
         JSONObject requestBody = new JSONObject();
@@ -61,6 +76,10 @@ public class SpringBootCucumberTestDefinitions {
         response = request.body(requestBody.toString()).post(BASE_URL + port + "/auth/users/login");
     }
 
+    /**
+     * Testing the results from the response to make sure
+     * the user exists and can log in.
+     */
     @Then("The user is logged in")
     public void theUserIsLoggedIn() {
         String token = response.jsonPath().get("message");
@@ -70,6 +89,12 @@ public class SpringBootCucumberTestDefinitions {
         userToken = token;
     }
 
+    /**
+     * Setting up the request header and body to invoke a POST endpoint to
+     * create an activity for the current logged-in user.
+     *
+     * @throws Exception
+     */
     @When("I create a new post")
     public void iCreateANewPost() throws Exception {
         JSONObject requestBody = new JSONObject();
@@ -79,6 +104,10 @@ public class SpringBootCucumberTestDefinitions {
         response = request.body(requestBody.toString()).post(BASE_URL + port + "/api/activities");
     }
 
+    /**
+     * Testing the results from the response to make sure
+     * the activity is created with the proper details.
+     */
     @Then("The post is created")
     public void thePostIsCreated() {
         Map<String, String> activity = response.jsonPath().get("data");
@@ -92,6 +121,12 @@ public class SpringBootCucumberTestDefinitions {
         Assert.assertEquals("success", msg);
     }
 
+    /**
+     * Setting up the request header and body to invoke a PUT endpoint to
+     * update an activity content for the current logged-in user.
+     *
+     * @throws Exception
+     */
     @When("I update any of my posts")
     public void iUpdateAnyOfMyPosts() throws Exception {
         JSONObject requestBody = new JSONObject();
@@ -103,6 +138,10 @@ public class SpringBootCucumberTestDefinitions {
         response = request.body(requestBody.toString()).put(BASE_URL + port + "/api/activities/" + activityId);
     }
 
+    /**
+     * Testing the results from the response to make sure
+     * the activity is updated with the recent content.
+     */
     @Then("The post is updated")
     public void thePostIsUpdated() {
         Map<String, String> activity = response.jsonPath().get("data");
@@ -116,12 +155,22 @@ public class SpringBootCucumberTestDefinitions {
         Assert.assertEquals("success", msg);
     }
 
+    /**
+     * Setting up the request header to invoke a GET endpoint to
+     * get any existing activity for the current logged-in user.
+     *
+     * @throws Exception
+     */
     @When("I search for a random post")
     public void iSearchForARandomPost() {
         request.header("Authorization", "Bearer " + userToken);
         response = request.get(BASE_URL + port + "/api/activities");
     }
 
+    /**
+     * Testing the results from the response to make sure
+     * an activity exists.
+     */
     @Then("The I receive a random post")
     public void theIReceiveARandomPost() {
         Assert.assertEquals(200, response.getStatusCode());
