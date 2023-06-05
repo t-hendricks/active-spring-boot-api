@@ -46,6 +46,7 @@ public class SpringBootCucumberTestDefinitions {
     public void anAccountIsCreated() {
         String msg = response.jsonPath().get("message");
         Map<String, String> user = response.jsonPath().get("data");
+
         Assert.assertEquals(201, response.getStatusCode());
         Assert.assertEquals("success", msg);
         Assert.assertEquals("JohnDoe", user.get("userName"));
@@ -63,6 +64,7 @@ public class SpringBootCucumberTestDefinitions {
     @Then("The user is logged in")
     public void theUserIsLoggedIn() {
         String token = response.jsonPath().get("message");
+
         Assert.assertEquals(200, response.getStatusCode());
         Assert.assertEquals(String.class, token.getClass());
         userToken = token;
@@ -81,8 +83,12 @@ public class SpringBootCucumberTestDefinitions {
     public void thePostIsCreated() {
         Map<String, String> activity = response.jsonPath().get("data");
         String msg = response.jsonPath().get("message");
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy hh:mm a");
+
         Assert.assertEquals(201, response.getStatusCode());
         Assert.assertEquals("content goes here", activity.get("content"));
+        Assert.assertEquals(now.format(formatter), activity.get("activityDate"));
         Assert.assertEquals("success", msg);
     }
 
@@ -103,9 +109,22 @@ public class SpringBootCucumberTestDefinitions {
         String msg = response.jsonPath().get("message");
         LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy hh:mm a");
+
         Assert.assertEquals(202, response.getStatusCode());
         Assert.assertEquals("updated content", activity.get("content"));
         Assert.assertEquals(now.format(formatter), activity.get("activityDate"));
         Assert.assertEquals("success", msg);
+    }
+
+    @When("I search for a random post")
+    public void iSearchForARandomPost() {
+        request.header("Authorization", "Bearer " + userToken);
+        response = request.get(BASE_URL + port + "/api/activities");
+    }
+
+    @Then("The I receive a random post")
+    public void theIReceiveARandomPost() {
+        Assert.assertEquals(200, response.getStatusCode());
+        Assert.assertEquals("success", response.jsonPath().get("message"));
     }
 }
