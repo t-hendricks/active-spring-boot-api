@@ -1,6 +1,5 @@
 package com.active.demo.service;
 
-import com.active.demo.exception.InformationExistException;
 import com.active.demo.exception.InformationNotFoundException;
 import com.active.demo.exception.RepeatingException;
 import com.active.demo.model.Activity;
@@ -34,12 +33,24 @@ public class ActivityService {
         this.activityLikeRepository = activityLikeRepository;
     }
 
+    /**
+     * Gets the current user's details from the security package.
+     *
+     * @return User {object} This returns current user's details
+     */
     public static User getCurrentLoggedInUser() {
         MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication()
                 .getPrincipal();
         return userDetails.getUser();
     }
 
+    /**
+     * This method checks to see if the current logged-in user latest post
+     * has been at least 24 hours ago.
+     *
+     * @param now This is the currently recorded LocalDateTime
+     * @return boolean This returns false if latest is >= 24 hours; otherwise, true
+     */
     public boolean isPostTooEarly(LocalDateTime now) {
         List<Activity> userActivities = activityRepository.findByUserIdOrderByIdAsc(getCurrentLoggedInUser().getId());
         if (userActivities.size() == 0) return false;
@@ -51,6 +62,13 @@ public class ActivityService {
         return latestDate.isBefore(now.minusMinutes(1)) ? false : true;
     }
 
+    /**
+     * Takes in an Activity object to compare the latest post date and time,
+     * then creates a new post with the given content.
+     *
+     * @param activityObj This is an {Activity} that holds activity content
+     * @return Activity {object} This returns a saved object
+     */
     public Activity createActivity(Activity activityObj) {
         LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy hh:mm a");
@@ -65,6 +83,14 @@ public class ActivityService {
         return activityRepository.save(activityObj);
     }
 
+    /**
+     * This method checks to see if the given activity exists by id, then adds
+     * a record to the Activity_Likes model.
+     *
+     * @param activityId This is a Long to represent activity id
+     * @param activityObj This is an {Activity} that holds activity content
+     * @return Activity {object} This returns a saved object
+     */
     public Activity updateActivity(Long activityId, Activity activityObj) {
         Activity activity = activityRepository.findByIdAndUserId(activityId, getCurrentLoggedInUser().getId());
         LocalDateTime now = LocalDateTime.now();
@@ -80,6 +106,11 @@ public class ActivityService {
         return activityRepository.save(activity);
     }
 
+    /**
+     * This method randomly picks an existing activity from the Activity model.
+     *
+     * @return Activity {object} This returns an existing random object
+     */
     public Activity getRandomActivity() {
         List<Activity> activities = activityRepository.findAll();
         Random random = new Random();
@@ -90,6 +121,14 @@ public class ActivityService {
         }
     }
 
+    /**
+     * This method checks for an existing activity, then add a record to
+     * ActivityLike model with a combination of the found activity and
+     * current logged-in user.
+     *
+     * @param activityId This is a Long to represent activity id
+     * @return ActivityLike {object} This returns a saved object
+     */
     public ActivityLike addLikeToActivity(Long activityId) {
         Optional<Activity> activity = activityRepository.findById(activityId);
         if (activity.isPresent()) {
@@ -102,6 +141,14 @@ public class ActivityService {
         }
     }
 
+    /**
+     * This method checks for an existing activity, then remove a record from
+     * ActivityLike model with a combination of the found activity and
+     * current logged-in user.
+     *
+     * @param activityId This is a Long to represent activity id
+     * @return ActivityLike {object} This returns a removed object
+     */
     public ActivityLike removeLikeFromActivity(Long activityId) {
         ActivityLike like = activityLikeRepository.findByActivityIdAndUserId(activityId, getCurrentLoggedInUser().getId());
         if (like != null) {
