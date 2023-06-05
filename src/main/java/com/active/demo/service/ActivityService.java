@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 @Service
 public class ActivityService {
     private ActivityRepository activityRepository;
@@ -24,7 +27,12 @@ public class ActivityService {
     }
 
     public Activity createActivity(Activity activityObj) {
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy hh:mm a");
+
         activityObj.setUser(getCurrentLoggedInUser());
+        activityObj.setActivityDate(now.format(formatter));
+
         return activityRepository.save(activityObj);
     }
 }
