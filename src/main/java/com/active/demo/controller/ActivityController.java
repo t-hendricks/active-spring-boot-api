@@ -19,6 +19,13 @@ public class ActivityController {
 
     static HashMap<String, Object> message = new HashMap<>();
 
+    /**
+     * Takes in an Activity object to make a POST request to create a new activity
+     * with the given activityObj content.
+     *
+     * @param activityObj This is an {Activity} that holds activity content
+     * @return ResponseEntity This returns message HashMap with a http status code
+     */
     @PostMapping("/activities")
     public ResponseEntity<?> createActivity(@RequestBody Activity activityObj) {
         Activity newActivity = activityService.createActivity(activityObj);
@@ -32,6 +39,14 @@ public class ActivityController {
         }
     }
 
+    /**
+     * Takes in an Activity object and activity id to make a PUT request to update
+     * an existing activity with the given activityObj content.
+     *
+     * @param activityId This is a Long to represent activity id
+     * @param activityObj This is an {Activity} that holds activity content
+     * @return ResponseEntity This returns message HashMap with a http status code
+     */
     @PutMapping("/activities/{activityId}")
     public ResponseEntity<?> updateActivity(@PathVariable Long activityId, @RequestBody Activity activityObj) {
         Activity updatedActivity = activityService.updateActivity(activityId, activityObj);
@@ -45,6 +60,11 @@ public class ActivityController {
         }
     }
 
+    /**
+     * Makes a GET request to find an existing random activity.
+     *
+     * @return ResponseEntity This returns message HashMap with a http status code
+     */
     @GetMapping("/activities")
     public ResponseEntity<?> getRandomActivity() {
         Activity randActivity = activityService.getRandomActivity();
@@ -58,6 +78,13 @@ public class ActivityController {
         }
     }
 
+    /**
+     * Takes in an activity id to make a POST request to find an existing activity
+     * and add the activity to the current logged-in user's likes list.
+     *
+     * @param activityId This is a Long to represent activity id
+     * @return ResponseEntity This returns message HashMap with a http status code
+     */
     @PostMapping("/activities/{activityId}")
     public ResponseEntity<?> addLikeToActivity(@PathVariable Long activityId) {
         ActivityLike activity = activityService.addLikeToActivity(activityId);
@@ -71,6 +98,13 @@ public class ActivityController {
         }
     }
 
+    /**
+     * Takes in an activity id to make a DELETE request to find an existing activity
+     * and remove the activity from the current logged-in user's likes list.
+     *
+     * @param activityId This is a Long to represent activity id
+     * @return ResponseEntity This returns message HashMap with a http status code
+     */
     @DeleteMapping("/activities/{activityId}")
     public ResponseEntity<?> removeLikeFromActivity(@PathVariable Long activityId) {
         ActivityLike like = activityService.removeLikeFromActivity(activityId);
@@ -84,6 +118,11 @@ public class ActivityController {
         }
     }
 
+    /**
+     * Makes a GET request to get current logged-in user's content.
+     *
+     * @return ResponseEntity This returns message HashMap with a http status code
+     */
     @GetMapping("/user/activities")
     public ResponseEntity<?> getCurrentUserContent() {
         User user = ActivityService.getCurrentLoggedInUser();
