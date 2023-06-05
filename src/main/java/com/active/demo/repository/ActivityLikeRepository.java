@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ActivityLikeRepository extends JpaRepository<ActivityLike, Long> {
+    public ActivityLike findByActivityIdAndUserId(Long activityId, Long userId);
 }
