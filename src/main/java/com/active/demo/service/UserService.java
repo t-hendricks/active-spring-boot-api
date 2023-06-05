@@ -38,6 +38,13 @@ public class UserService {
         this.myUserDetails = myUserDetails;
     }
 
+    /**
+     * This method checks for an existing username. If it's not found, then the
+     * provided credentials will be saved in the database.
+     *
+     * @param userObj This is the unique credentials used to register
+     * @return User {object} This is the provided credentials
+     */
     public User createUser(User userObj) {
         if(!userRepository.existsByUserName(userObj.getUserName())) {
             userObj.setPassword(passwordEncoder.encode(userObj.getPassword()));
@@ -47,10 +54,23 @@ public class UserService {
         }
     }
 
+    /**
+     * This method searches database by the given username.
+     *
+     * @param userName String This is used to find an existing user
+     * @return User {object} This is the provided credentials
+     */
     public User findUserByUserName(String userName) {
         return userRepository.findUserByUserName(userName);
     }
 
+    /**
+     * This method looks for an existing user with the provided credentials,
+     * then generates JWT and login session for the user to access private endpoints.
+     *
+     * @param loginRequest {object} This is given credentials
+     * @return ResponseEntity
+     */
     public ResponseEntity<?> loginUser(LoginRequest loginRequest) {
         try {
             Authentication authentication = authenticationManager.authenticate(
