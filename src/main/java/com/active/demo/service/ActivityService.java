@@ -101,4 +101,14 @@ public class ActivityService {
             throw new InformationNotFoundException("Cannot find activity with id " + activityId);
         }
     }
+
+    public ActivityLike removeLikeFromActivity(Long activityId) {
+        ActivityLike like = activityLikeRepository.findByActivityIdAndUserId(activityId, getCurrentLoggedInUser().getId());
+        if (like != null) {
+            activityLikeRepository.delete(like);
+            return like;
+        } else {
+            throw new InformationNotFoundException("Cannot find activity with id " + activityId);
+        }
+    }
 }
