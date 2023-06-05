@@ -29,6 +29,11 @@ public class ActivityService {
         this.activityRepository = activityRepository;
     }
 
+    @Autowired
+    public void setActivityLikeRepository(ActivityLikeRepository activityLikeRepository) {
+        this.activityLikeRepository = activityLikeRepository;
+    }
+
     public static User getCurrentLoggedInUser() {
         MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication()
                 .getPrincipal();
