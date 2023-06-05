@@ -44,7 +44,7 @@ public class ActivityController {
     }
 
     @GetMapping("/activities")
-    public  ResponseEntity<?> getRandomActivity() {
+    public ResponseEntity<?> getRandomActivity() {
         Activity randActivity = activityService.getRandomActivity();
         if (randActivity != null) {
             message.put("message", "success");
@@ -52,6 +52,19 @@ public class ActivityController {
             return new ResponseEntity<>(message, HttpStatus.FOUND);
         } else {
             message.put("message", "no activities exists");
+            return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PostMapping("/activities/{activityId}")
+    public ResponseEntity<?> addLikeToActivity(@PathVariable Long activityId) {
+        Activity activity = activityService.addLikeToActivity(activityId);
+        if (activity != null) {
+            message.put("message", "success");
+            message.put("data", activity);
+            return new ResponseEntity<>(message, HttpStatus.OK);
+        } else {
+            message.put("message", "activity with id: " + activityId + " don't exist");
             return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
         }
     }
