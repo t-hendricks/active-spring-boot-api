@@ -1,6 +1,7 @@
 package com.active.demo.service;
 
 import com.active.demo.exception.InformationExistException;
+import com.active.demo.exception.InformationNotFoundException;
 import com.active.demo.exception.RepeatingException;
 import com.active.demo.model.Activity;
 import com.active.demo.model.User;
@@ -52,5 +53,20 @@ public class ActivityService {
         }
 
         return activityRepository.save(activityObj);
+    }
+
+    public Activity updateActivity(Long activityId, Activity activityObj) {
+        Activity activity = activityRepository.findByIdAndUserId(activityId, getCurrentLoggedInUser().getId());
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy hh:mm a");
+
+        if (activity != null) {
+            activity.setContent(activityObj.getContent());
+            activity.setActivityDate(now.format(formatter));
+        } else {
+            throw new InformationNotFoundException("Cannot find activity with id " + activityId);
+        }
+
+        return activityRepository.save(activity);
     }
 }
