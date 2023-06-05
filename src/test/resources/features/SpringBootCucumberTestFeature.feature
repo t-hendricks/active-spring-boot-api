@@ -11,3 +11,7 @@ Feature: Active API functionalities
     Then The post is created
     When I update any of my posts
     Then The post is updated
+
+  Scenario: User able to get random activity
+    When I search for a random post
+    Then The I receive a random post
