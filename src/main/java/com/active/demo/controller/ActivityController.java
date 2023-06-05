@@ -42,4 +42,17 @@ public class ActivityController {
             return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
         }
     }
+
+    @GetMapping("/activities")
+    public  ResponseEntity<?> getRandomActivity() {
+        Activity randActivity = activityService.getRandomActivity();
+        if (randActivity != null) {
+            message.put("message", "success");
+            message.put("data", randActivity);
+            return new ResponseEntity<>(message, HttpStatus.FOUND);
+        } else {
+            message.put("message", "no activities exists");
+            return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
+        }
+    }
 }
