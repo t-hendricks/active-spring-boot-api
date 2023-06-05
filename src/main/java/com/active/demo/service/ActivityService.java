@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Random;
 
 @Service
 public class ActivityService {
@@ -68,5 +69,15 @@ public class ActivityService {
         }
 
         return activityRepository.save(activity);
+    }
+
+    public Activity getRandomActivity() {
+        List<Activity> activities = activityRepository.findAll();
+        Random random = new Random();
+        if (activities.size() > 0) {
+            return activities.get(random.nextInt(activities.size()));
+        } else {
+            return null;
+        }
     }
 }
