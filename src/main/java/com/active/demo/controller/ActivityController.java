@@ -51,7 +51,7 @@ public class ActivityController {
         if (randActivity != null) {
             message.put("message", "success");
             message.put("data", randActivity);
-            return new ResponseEntity<>(message, HttpStatus.FOUND);
+            return new ResponseEntity<>(message, HttpStatus.OK);
         } else {
             message.put("message", "no activities exists");
             return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
