@@ -1,6 +1,7 @@
 package com.active.demo.service;
 
 import com.active.demo.exception.InformationExistException;
+import com.active.demo.exception.InformationNotFoundException;
 import com.active.demo.model.User;
 import com.active.demo.model.request.LoginRequest;
 import com.active.demo.model.response.LoginResponse;
@@ -81,7 +82,7 @@ public class UserService {
             final String JWT = jwtUtils.generateJwtToken(myUserDetails);
             return ResponseEntity.ok(new LoginResponse(JWT));
         } catch (Exception e) {
-            return ResponseEntity.ok(new LoginResponse("Error : user name or password is incorrect"));
+            throw new InformationNotFoundException("Username or Password is incorrect.");
         }
     }
 }
