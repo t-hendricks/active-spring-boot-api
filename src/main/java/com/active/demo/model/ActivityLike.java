@@ -17,7 +17,6 @@ public class ActivityLike {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "activity_id")
     private Activity activity;
