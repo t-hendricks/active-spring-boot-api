@@ -50,6 +50,10 @@ These are general websites that helped me pass most of my roadblocks.
 - [Stack Overflow](https://stackoverflow.com/)
 - [Baeldung](https://www.baeldung.com/)
 - [Medium](https://medium.com/)
+- [Javadoc.io](https://www.javadoc.io/doc/io.rest-assured/rest-assured/3.0.6/io/restassured/RestAssured.html#given--)
+- [Javapoint](https://www.javatpoint.com/java-string-to-date)
+- [Spring Framework Guru](https://springframework.guru/using-the-h2-database-console-in-spring-boot-with-spring-security/)
+- [Oracle Java Docs](https://docs.oracle.com/javase/8/docs/api/java/time/LocalDateTime.html)
 - General Assembly's Lessons
 
 ## Credits
