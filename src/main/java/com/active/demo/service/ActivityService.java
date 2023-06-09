@@ -1,5 +1,6 @@
 package com.active.demo.service;
 
+import com.active.demo.exception.InformationExistException;
 import com.active.demo.exception.InformationNotFoundException;
 import com.active.demo.exception.RepeatingException;
 import com.active.demo.model.Activity;
@@ -131,11 +132,16 @@ public class ActivityService {
      */
     public ActivityLike addLikeToActivity(Long activityId) {
         Optional<Activity> activity = activityRepository.findById(activityId);
+        ActivityLike like = activityLikeRepository.findByActivityIdAndUserId(activityId, getCurrentLoggedInUser().getId());
         if (activity.isPresent()) {
-            ActivityLike like = new ActivityLike();
-            like.setUser(getCurrentLoggedInUser());
-            like.setActivity(activity.get());
-            return activityLikeRepository.save(like);
+            if (like == null) {
+                ActivityLike newLike = new ActivityLike();
+                newLike.setUser(getCurrentLoggedInUser());
+                newLike.setActivity(activity.get());
+                return activityLikeRepository.save(newLike);
+            } else {
+                throw new InformationExistException("Activity with id: " + activityId + " already exists in likes");
+            }
         } else {
             throw new InformationNotFoundException("Cannot find activity with id " + activityId);
         }
