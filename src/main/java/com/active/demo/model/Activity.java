@@ -26,6 +26,7 @@ public class Activity {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "activity", orphanRemoval = true)
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<ActivityLike> likes;
